@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prathamesh Damle</title>
+    <link rel="icon" type="image/jpeg" href="images/letter-p.png">
+    <link rel="icon" type="image/png" href="https://www.flaticon.com/free-icons/letter-p" title="Prathamesh Damle">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    
+</head>
+<body data-theme="dark">
+    <div class="container">
+        <aside class="sidebar" id="sidebar">
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <i class="fas fa-sun"></i>
+            </button>
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="nav-text">PDCP</span>
+                </div>
+                <button class="collapse-btn" onclick="toggleSidebar()">
+                     <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="accent-color">
+                <label class="nav-text">Accent Color</label>
+                <select onchange="changeAccentColor(this.value)">
+                    <option value="#8b5cf6">Purple</option>
+                    <option value="#3b82f6">Blue</option>
+                    <option value="#10b981">Green</option>
+                    
+                </select>
+            </div>
+
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#home" class="nav-link active" onclick="showSection('home')">
+                            <i class="fas fa-home fa-xs"></i>
+                            <span class="nav-text">Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#skills" class="nav-link" onclick="showSection('skills')">
+                            <i class="fas fa-code fa-xs"></i>
+                            <span class="nav-text">Skills</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#experience" class="nav-link" onclick="showSection('experience')">
+                            <i class="fas fa-briefcase fa-xs"></i>
+                            <span class="nav-text">Experience</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#education" class="nav-link" onclick="showSection('education')">
+                            <i class="fas fa-graduation-cap fa-xs"></i>
+                            <span class="nav-text">Education</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#projects" class="nav-link" onclick="showSection('projects')">
+                            <i class="fas fa-folder-open fa-xs"></i>
+                            <span class="nav-text">Projects</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#certifications" class="nav-link" onclick="showSection('certifications')">
+                            <i class="fa-solid fa-certificate fa-xs"></i>
+                            <span class="nav-text">Certifications</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="recent-searches" style="margin-top: 20px;">
+                <h4>Recent Searches</h4>
+                <div class="recent-search" onclick="askQuestion('What are Prathamesh\'s technical skills?')">
+                    What are Prathamesh's technical skills?
+                </div>
+                <div class="recent-search" onclick="askQuestion('Tell me about his experience at Capgemini')">
+                    Tell me about his experience at Capgemini
+                </div>
+            </div>
+
+            <div style="margin-top: auto; text-align: left; padding-top: 20px;margin-bottom: 10px;">
+                <div style="display: flex; align-items: left; justify-content: flex-start; gap: 10px;">
+                    <img src="images/letter-p.png" style="width: 30px; height: 30px; border-radius: 50%; background-color: white;">
+                    <span class="nav-text" style="font-size: 14px; padding-top: 5px;">Prathamesh Damle</span>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <i class="fas fa-moon"></i>
+            </button>
+
+            <!-- Home Section -->
+            <section id="home" class="section">
+                <!-- Interactive Grid Animation -->
+                <div class="interactive-grid">
+                    <canvas class="grid-canvas" id="gridCanvas"></canvas>
+                </div>
+                <div class="profile-section">
+                    <div class="profile-image">
+                        <img src="images/profile.jpg" alt="Prathamesh S. Damle" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                        <span class="profile-initials" id="profileInitials" style="display: none;">P D</span>
+                    </div>
+                    <h1 class="profile-name">Prathamesh S. Damle</h1>
+                    <div class="profile-title" id="dynamicTitle">Python Lead</div>
+                </div>
+
+                <div class="chat-section">
+                    <h2 class="chat-prompt">What do you want to know?</h2>
+                    
+                    <div class="chat-input-container">
+                        <input type="text" class="chat-input" placeholder="Ask anything..." id="chatInput">
+                        
+                        <div class="quick-actions">
+                            <button class="quick-action-btn" onclick="showSection('skills')" title="Skills">
+                                <i class="fas fa-code"></i>
+                            </button>
+                            <button class="quick-action-btn" onclick="showSection('experience')" title="Experience">
+                                <i class="fas fa-briefcase"></i>
+                            </button>
+                            <button class="quick-action-btn" onclick="showSection('projects')" title="Projects">
+                                <i class="fas fa-folder-open"></i>
+                            </button>
+                            <button class="quick-action-btn" onclick="showSection('education')" title="Education">
+                                <i class="fas fa-graduation-cap"></i>
+                            </button>
+                        </div>
+                        
+                        <button class="chat-submit" onclick="submitChat()">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+
+                    <div class="suggested-questions">
+                        <h3>Suggested Questions</h3>
+                        <div class="question-chips">
+                            <div class="question-chip" onclick="askQuestion('What are the interesting projects Prathamesh has worked on?')">
+                                Which are some of his interesting projects?
+                            </div>
+                            <div class="question-chip" onclick="askQuestion('What are his past experiences?')">
+                                What are his past experiences?
+                            </div>
+                            <div class="question-chip" onclick="askQuestion('What kind of opportunities is he looking for?')">
+                                What kind of opportunities is he looking for?
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-number">3+ years</span>
+                            <span class="stat-label">Professional Experience</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-number">25+ ETL</span>
+                            <span class="stat-label">Jobs Designed</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-number">8 hours</span>
+                            <span class="stat-label">Weekly Volunteering</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-divider"></div>
+                <div class="social-links">
+                    <a href="mailto:pdamle@buffalo.edu" class="social-link">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/prathamesh-damle" class="social-link" target="_blank">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://github.com/prathamesh-damle" class="social-link" target="_blank">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="tel:+17164150296" class="social-link">
+                        <i class="fas fa-phone"></i>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Skills Section -->
+            <section id="skills" class="section hidden">
+                <h2 style="text-align: center; margin-bottom: 25px; font-size: 24px;">My Skills</h2>
+                
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3>Programming Languages</h3>
+                        <div class="skill-item">
+                            <div class="skill-icon"><i class="fa-brands fa-python"></i></div>
+                            <div class="skill-info">
+                                <h4>Python</h4>
+                                <div class="skill-level">Expert</div>
+                                <div class="skill-years">3+ years</div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon"><i class="fas fa-database"></i></div>
+                            <div class="skill-info">
+                                <h4>SQL</h4>
+                                <div class="skill-level">Advanced</div>
+                                <div class="skill-years">3+ years</div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon"><i class="fa-brands fa-java"></i></div>
+                            <div class="skill-info">
+                                <h4>Java</h4>
+                                <div class="skill-level">Intermediate</div>
+                                <div class="skill-years">1+ years</div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon"><i class="fab fa-js-square"></i></div>
+                            <div class="skill-info">
+                                <h4>JavaScript</h4>
+                                <div class="skill-level">Intermediate</div>
+                                <div class="skill-years">2+ years</div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon"><i class="fab fa-r-project"></i></div>
+                            <div class="skill-info">
+                                <h4>R</h4>
+                                <div class="skill-level">Intermediate</div>
+                                <div class="skill-years">1+ years</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h3>Data & Analytics Tools</h3>
+                        <div class="skill-item">
+                            <div class="skill-icon"><i class="fas fa-building"></i></div>
+                            <div class="skill-info">
+                                <h4>SAP BO & BODS</h4>
+                                <div class="skill-level">Expert</div>
+                                <div class="skill-years">3+ years</div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon"><i class="fab fa-aws"></i></div>
+                            <div class="skill-info">
+                                <h4>Redshift</h4>
+                                <div class="skill-level">Advanced</div>
+                                <div class="skill-years">2+ years</div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon"><i class="fas fa-chart-bar"></i></div>
+                            <div class="skill-info">
+                                <h4>Tableau</h4>
+                                <div class="skill-level">Advanced</div>
+                                <div class="skill-years">2+ years</div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon"><i class="fas fa-chart-pie"></i></div>
+                            <div class="skill-info">
+                                <h4>Power BI</h4>
+                                <div class="skill-level">Intermediate</div>
+                                <div class="skill-years">1+ years</div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon"><i class="fab fa-aws"></i></div>
+                            <div class="skill-info">
+                                <h4>AWS</h4>
+                                <div class="skill-level">Intermediate</div>
+                                <div class="skill-years">2+ years</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h3>Machine Learning & AI</h3>
+                        <div class="skill-item">
+                            <div class="skill-icon"><i class="fas fa-network-wired"></i></div>
+                            <div class="skill-info">
+                                <h4>Machine Learning</h4>
+                                <div class="skill-level">Advanced</div>
+                                <div class="skill-years">2+ years</div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon"><i class="fa-solid fa-brain"></i></div>
+                            <div class="skill-info">
+                                <h4>Deep Learning</h4>
+                                <div class="skill-level">Intermediate</div>
+                                <div class="skill-years">1+ years</div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon"><i class="fa fa-language"></i></div>
+                            <div class="skill-info">
+                                <h4>NLP</h4>
+                                <div class="skill-level">Advanced</div>
+                                <div class="skill-years">2+ years</div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon"><i class="fas fa-eye"></i></div>
+                            <div class="skill-info">
+                                <h4>Computer Vision</h4>
+                                <div class="skill-level">Intermediate</div>
+                                <div class="skill-years">1+ years</div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon"><i class="fas fa-chart-area"></i></div>
+                            <div class="skill-info">
+                                <h4>Data Science</h4>
+                                <div class="skill-level">Expert</div>
+                                <div class="skill-years">3+ years</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Experience Section -->
+            <section id="experience" class="section hidden">
+                <h2>Work Experience</h2>
+                
+                <div class="experience-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Teaching Assistant for Data Modification Query Language (SQL)</h3>
+                            <div class="company">State University of New York, Buffalo</div>
+                            <div class="date-range">July 2025 - Present</div>
+                            <div class="job-description">
+                                Working under Dr. Shamsad Parvin, assisting students with SQL coursework and database concepts.
+                            </div>
+                            <ul class="achievements">
+                                <li>Assist with grading work of students and providing detailed feedback</li>
+                                <li>Host office hours and resolve students' subject-related queries and difficulties</li>
+                                <li>Support course instruction and curriculum development</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Associate (Python Lead)</h3>
+                            <div class="company">Capgemini India Pvt. Ltd.</div>
+                            <div class="date-range">September 2021 - December 2024</div>
+                            <div class="job-description">
+                                <strong>Project:</strong> GE Lighting – Savant Company
+                            </div>
+                            <ul class="achievements">
+                                <li>Worked with Python, SQL, Redshift, and related frameworks for data processing</li>
+                                <li>Performed sentiment Analysis using NLP on the data gathered by CRMs</li>
+                                <li>Utilized complex SQL queries and views for data extraction, transformation, and loading processes</li>
+                                <li>Implemented Python for various tasks, including Flask-based web development, API creation, and AWS connectivity</li>
+                                <li>Worked as an admin for SAP tools like Business Objects and Data Services</li>
+                                <li>Designed 25 ETL jobs to move data from Warehouse to Hana Custom tables</li>
+                                <li>Created, Scheduled and Delivered over 20 Webi reports</li>
+                                <li>Executed POC for new ETL tool, Tableau, SAP Lumira and worked with AWS Copy/Unload</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Founder, Director</h3>
+                            <div class="company">Teraluna Tech Ventures (vlink) LLP</div>
+                            <div class="date-range">February 2018 - June 2021</div>
+                            <div class="job-description">
+                                Founded and led a technology venture focused on recruitment solutions and workforce development.
+                            </div>
+                            <ul class="achievements">
+                                <li>Developed a platform based on 'hiring score' (like credit score) to reduce offer shopping in recruitment</li>
+                                <li>Established foundational processes for business operations and automated them</li>
+                                <li>Closed high ticket clients and delivered quality workforce to conglomerates and unicorn businesses</li>
+                                <li>Delivered technology trainings through weekly workshops to grad students (2021-2022)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Education Section - Updated to match Experience timeline style -->
+            <section id="education" class="section hidden">
+                <h2 style="text-align: center; margin-bottom: 40px; font-size: 32px;">Education</h2>
+                
+                <div class="experience-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Master of Science (MS) in Computer Science and Engineering</h3>
+                            <div class="company">State University of New York, Buffalo</div>
+                            <div class="date-range">January 2025 - Present</div>
+                            <div class="job-description">
+                                <strong>Specialization:</strong> Data Science & Machine Learning
+                            </div>
+                            <ul class="achievements">
+                                <li>Teaching Assistant for SQL course under Dr. Shamsad Parvin</li>
+                                <li>Focus on Advanced Machine Learning and Data Analytics</li>
+                                <li>Active participant in research projects and academic collaborations</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Bachelor of Engineering (BE) in Electronics & Telecommunication</h3>
+                            <div class="company">Pillai College of Engineering, Mumbai University</div>
+                            <div class="date-range">August 2017 - June 2021</div>
+                            <div class="job-description">
+                                <strong>Specialization:</strong> OOP & DBMS Coursework
+                            </div>
+                            <ul class="achievements">
+                                <li>CGPA: 8.79/10</li>
+                                <li>Published research paper at CTFC (national level conference)</li>
+                                <li>Paper also published in IEEE magazine edition</li>
+                                <li>Founded Teraluna Tech Ventures during final year</li>
+                                <li>Completed multiple software development projects</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section id="projects" class="section hidden">
+                <h2 style="text-align: center; margin-bottom: 40px; font-size: 32px;">Projects</h2>
+                
+                <div class="projects-grid">
+                    <!-- Fall Detection using Active Learning -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <i class="fas fa-user-injured"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Fall Detection using Active Learning</h3>
+                            <p class="project-description">
+                                Implemented an OpenAI CLIP-based VadCLIP framework with Active Learning loop for real-time fall detection. Used PyTorch, OpenCV, and Flask to create an end-to-end solution. <span style="color: var(--primary-color); font-weight: bold;">[In Development]</span>
+                            </p>
+                            <div class="tech-tags">
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">PyTorch</span>
+                                <span class="tech-tag">OpenCV</span>
+                                <span class="tech-tag">Flask</span>
+                                <span class="tech-tag">SQLite</span>
+                                <span class="tech-tag">CLIP</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/dprathamesh/Fall-Detection-using-OpenAI-CLIP" class="project-link" target="_blank">
+                                    <i class="fas fa-code"></i> Code
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transportation Data Science Project (Combined NYC + TDSP) -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <i class="fas fa-car-crash"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Transportation Data Science Explorer (NYC Collision Analysis)</h3>
+                            <p class="project-description">
+                                Six-milestone transportation safety project analyzing NYC collision data to predict crash possibilities at intersections. Implemented complete ML pipeline with data preprocessing, EDA, machine learning models, PySpark for distributed processing, and dashboard creation.
+                            </p>
+                            <div class="tech-tags">
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">PySpark</span>
+                                <span class="tech-tag">Machine Learning</span>
+                                <span class="tech-tag">Time Series Analysis</span>
+                                <span class="tech-tag">Geospatial Analysis</span>
+                                <span class="tech-tag">Dashboard</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/dprathamesh/Transportation-Data-Science-Project" class="project-link" target="_blank">
+                                    <i class="fas fa-code"></i> GitHub
+                                </a>
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-chart-bar"></i> Dashboard
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Power BI Dashboards -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Power BI Dashboard Collection</h3>
+                            <p class="project-description">
+                                Portfolio of interactive Power BI dashboards for business intelligence and data visualization. Features sales analytics and comprehensive KPI tracking with advanced DAX calculations and dynamic filtering.
+                            </p>
+                            <div class="tech-tags">
+                                <span class="tech-tag">Power BI</span>
+                                <span class="tech-tag">DAX</span>
+                                <span class="tech-tag">Data Visualization</span>
+                                <span class="tech-tag">Business Intelligence</span>
+                                <span class="tech-tag">KPI Tracking</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://app.powerbi.com/view?r=eyJrIjoiYjMzNzY3NGEtOWRkNC00MmJjLWFkNGItN2U4MzQ3NWM4M2FiIiwidCI6Ijk2NDY0YThhLWY4ZWQtNDBiMS05OWUyLTVmNmI1MGEyMDI1MCIsImMiOjN9" class="project-link" target="_blank">
+                                    <i class="fas fa-chart-bar"></i> Sales Dashboard
+                                </a>
+                                <a href="https://app.powerbi.com/view?r=eyJrIjoiZDExYWQxMjQtNDY0NC00YjU0LWJhZGUtMzJlYjU3NjFmNTIzIiwidCI6Ijk2NDY0YThhLWY4ZWQtNDBiMS05OWUyLTVmNmI1MGEyMDI1MCIsImMiOjN9" class="project-link" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> First Dashboard
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BIA ML & AI Projects -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Advanced ML & AI Algorithm Library</h3>
+                            <p class="project-description">
+                                Extensive collection of cutting-edge machine learning and AI algorithms from Boston Institute of Analytics. Features neural networks, ensemble methods, NLP models, computer vision implementations, and optimization techniques with real-world applications.
+                            </p>
+                            <div class="tech-tags">
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">Neural Networks</span>
+                                <span class="tech-tag">Ensemble Methods</span>
+                                <span class="tech-tag">NLP</span>
+                                <span class="tech-tag">Computer Vision</span>
+                                <span class="tech-tag">Optimization</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/dprathamesh/BIA-ML" class="project-link" target="_blank">
+                                    <i class="fas fa-code"></i> GitHub
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Academic Course Projects -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Masters Coursework Projects</h3>
+                            <p class="project-description">
+                                Collection of advanced projects from SUNY Buffalo Masters program including Machine Learning algorithms, Deep Learning implementations, and Data-Intensive Computing with distributed systems.
+                            </p>
+                            <div class="tech-tags">
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">TensorFlow</span>
+                                <span class="tech-tag">Deep Learning</span>
+                                <span class="tech-tag">Distributed Computing</span>
+                                <span class="tech-tag">Big Data</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/dprathamesh/Masters-SUNY-Buffalo-ML" class="project-link" target="_blank">
+                                    <i class="fas fa-brain"></i> ML Course
+                                </a>
+                                <a href="https://github.com/dprathamesh/Masters-SUNY-Buffalo-DIC" class="project-link" target="_blank">
+                                    <i class="fas fa-database"></i> DIC Course
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Extracurricular Projects -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Extracurricular & Personal Projects</h3>
+                            <p class="project-description">
+                                Collection of personal projects including smart attendance system using facial recognition (published in IEEE), volunteer management website for NGO, IoT home automation, and various game development projects.
+                            </p>
+                            <div class="tech-tags">
+                                <span class="tech-tag">Computer Vision</span>
+                                <span class="tech-tag">Web Development</span>
+                                <span class="tech-tag">IoT</span>
+                                <span class="tech-tag">Game Development</span>
+                                <span class="tech-tag">Mobile Apps</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/dprathamesh" class="project-link" target="_blank">
+                                    <i class="fas fa-code"></i> Main Repository
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                        </section>
+
+            <!-- Certifications Section -->
+            <section id="certifications" class="section hidden">
+                <h2 style="text-align: center; margin-bottom: 40px; font-size: 32px;">Certifications & Achievements</h2>
+                
+                <div class="experience-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fab fa-amazon"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Data Structures and Algorithms</h3>
+                            <div class="company">Amazon</div>
+                            <div class="date-range">July 2024 - October 2024</div>
+                            <div class="job-description">
+                                Advanced algorithmic thinking and problem-solving skills certification from Amazon's technical training program.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fas fa-route"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Explorer Transportation Data Science Project</h3>
+                            <div class="company">Northeast Big Data Innovation Hub & National Student Data Corps</div>
+                            <div class="date-range">October 2024 - January 2025</div>
+                            <div class="job-description">
+                                Completed comprehensive 6-milestone transportation data science project in collaboration with U.S. Department of Transportation Federal Highway Administration.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fab fa-java"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Advanced Data Structures in Java</h3>
+                            <div class="company">UC San Diego</div>
+                            <div class="date-range">August 2024 - November 2024</div>
+                            <div class="job-description">
+                                Mastered advanced data structures implementation and optimization techniques using Java programming language.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Machine Learning Specialization</h3>
+                            <div class="company">Stanford Online (Andrew NG)</div>
+                            <div class="date-range">August 2024 - December 2024</div>
+                            <div class="job-description">
+                                Comprehensive machine learning specialization covering supervised learning, unsupervised learning, neural networks, and practical applications taught by Andrew Ng.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Machine Learning, Data Science & AI</h3>
+                            <div class="company">Boston Institute of Analytics</div>
+                            <div class="date-range">January 2024 - June 2024</div>
+                            <div class="job-description">
+                                Comprehensive course with hands-on projects culminating in predicting effective KPIs for an apparel ad campaign using Random Forest model.
+                            </div>
+                            <ul class="achievements">
+                                <li>Tested and compared five different regression models for optimal performance</li>
+                                <li>Deployed machine learning solution using Streamlit framework</li>
+                                <li>Created interactive dashboard using Tableau for data visualization</li>
+                                <li>Implemented end-to-end data science pipeline from data collection to deployment</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Data Structures & Algorithms</h3>
+                            <div class="company">University of Colorado, Boulder</div>
+                            <div class="date-range">October 2023 - December 2023</div>
+                            <div class="job-description">
+                                Comprehensive study of fundamental data structures and algorithmic problem-solving techniques.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fab fa-google"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Data Analysis Course (8-phase)</h3>
+                            <div class="company">Google</div>
+                            <div class="date-range">June 2023 - October 2023</div>
+                            <div class="job-description">
+                                Comprehensive 8-phase Google Data Analytics Professional Certificate covering the complete data analyst workflow.
+                            </div>
+                            <ul class="achievements">
+                                <li>Mastered data access and extraction using SQL databases</li>
+                                <li>Advanced data cleaning and transformation techniques using Python</li>
+                                <li>Professional dashboard creation and data presentation methods</li>
+                                <li>End-to-end data analysis project implementation and deployment</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">SAP Analytical Cloud, Snowflake Essentials & L0 Architect</h3>
+                            <div class="company">SAP & Snowflake</div>
+                            <div class="date-range">September 2021 - July 2024</div>
+                            <div class="job-description">
+                                Professional certifications in enterprise cloud analytics platforms and data architecture fundamentals.
+                            </div>
+                            <ul class="achievements">
+                                <li>SAP Analytical Cloud Practitioner certification</li>
+                                <li>Snowflake Essentials for data warehousing</li>
+                                <li>L0 Architect certification for system design</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chat Interface -->
+            <div id="chatInterface" class="chat-interface hidden">
+                <div class="chat-header">
+                    <h3>Chat with Prathamesh's AI Assistant</h3>
+                    <button class="chat-close-btn" onclick="closeChatInterface()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message">
+                        <div class="message-avatar">P</div>
+                        <div class="message-content">
+                            Hi! I'm Prathamesh's AI assistant. Feel free to ask me anything about his background, experience, skills, or projects. I'm here to help you learn more about him!
+                        </div>
+                    </div>
+                    <div class="conversation-starter">
+                        <p>Try asking:</p>
+                        <div>
+                            <span class="suggested-question" onclick="askQuestion('What are Prathamesh\'s technical skills?')">
+                                What are Prathamesh's technical skills?
+                            </span>
+                            <span class="suggested-question" onclick="askQuestion('Tell me about his experience at Capgemini')">
+                                Tell me about his experience at Capgemini
+                            </span>
+                            <span class="suggested-question" onclick="askQuestion('What projects has he worked on?')">
+                                What projects has he worked on?
+                            </span>
+                        </div>
+                    </div>
+                
+                </div>
+                <div class="chat-input-container">
+                    <input type="text" class="chat-input" placeholder="Ask anything about Prathamesh..." id="chatInterfaceInput" onkeypress="handleChatInputKey(event)">
+                    <button class="chat-submit" onclick="submitChat()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                
+            </div>
+        </main>
+    </div>
+    <div class="api-status" id="apiStatusIndicator">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="apiStatusText">API Status: Checking...</span>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
