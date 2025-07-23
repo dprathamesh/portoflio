@@ -15,82 +15,80 @@ export default async function handler(req, res) {
     }
     
     const { question } = req.body;
+    const apiKey = process.env.GROQ_API_KEY;
     
-    // Check if API key exists
-    if (!process.env.GROQ_API_KEY) {
-        console.error('GROQ_API_KEY environment variable is not set');
-        res.status(500).json({ 
-            error: 'API key not configured',
-            message: 'Please configure GROQ_API_KEY in environment variables'
+    console.log('=== GROQ API DEBUG ===');
+    console.log('Question:', question);
+    console.log('API Key exists:', !!apiKey);
+    console.log('API Key length:', apiKey ? apiKey.length : 0);
+    console.log('API Key starts with gsk_:', apiKey ? apiKey.startsWith('gsk_') : false);
+    
+    if (!apiKey) {
+        return res.status(500).json({ 
+            error: 'GROQ_API_KEY environment variable not set' 
         });
-        return;
     }
     
-    try {
-        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                model: "llama-3.3-70b-versatile",
-                messages: [
-                    {
-                        role: "system",
-                        content: `You are Prathamesh Damle's AI assistant. You help visitors learn about Prathamesh's professional background.
-
-ABOUT PRATHAMESH:
-- Current: MS in Computer Science at SUNY Buffalo (Jan 2025 - Present), Teaching Assistant for SQL
-- Experience: 3+ years as Python Lead at Capgemini India (2021-2024)
-- Founder: Teraluna Tech Ventures (2018-2021) - recruitment technology startup
-- Skills: Python (Expert), SQL (Advanced), Machine Learning, Data Science, NLP, SAP BO/BODS, AWS, Tableau
-- Projects: Fall Detection using Active Learning, Transportation Data Science, Smart Attendance System
-- Volunteer: Manager at Vardhan NGO, teaches underprivileged children 8hrs/week
-- Education: BE in Electronics & Telecommunication from Pillai College of Engineering (2017-2021)
-
-Keep responses concise, professional, and helpful. Focus on his technical expertise and professional achievements.`
-                    },
-                    {
-                        role: "user", 
-                        content: question
-                    }
-                ],
-                max_tokens: 300,
-                temperature: 0.7
-            })
-        });
-        
-        const result = await response.json();
-        
-        // Check if the response contains an error
-        if (result.error) {
-            console.error('Groq API Error:', result.error);
-            res.status(400).json({ 
-                error: 'API Error',
-                message: result.error.message || 'Unknown API error',
-                details: result.error
+    // List of models to try in order
+    const modelsToTry = [
+        "llama3-8b-8192",
+        "mixtral-8x7b-32768", 
+        "llama3-70b-8192",
+        "gemma2-9b-it"
+    ];
+    
+    for (const model of modelsToTry) {
+        try {
+            console.log(`Trying model: ${model}`);
+            
+            const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${apiKey}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    model: model,
+                    messages: [
+                        {
+                            role: "system",
+                            content: "You are Prathamesh Damle's AI assistant. Answer questions about his professional background, skills, and experience. Keep responses concise and professional."
+                        },
+                        {
+                            role: "user", 
+                            content: question
+                        }
+                    ],
+                    max_tokens: 500,
+                    temperature: 0.7
+                })
             });
-            return;
+            
+            const result = await response.json();
+            
+            console.log(`Model ${model} - Status:`, response.status);
+            console.log(`Model ${model} - Response:`, JSON.stringify(result, null, 2));
+            
+            if (response.ok && result.choices && result.choices[0]) {
+                console.log(`SUCCESS with model: ${model}`);
+                return res.json(result);
+            } else if (result.error) {
+                console.log(`Model ${model} failed:`, result.error.message);
+                // Continue to next model
+                continue;
+            }
+            
+        } catch (error) {
+            console.error(`Model ${model} threw error:`, error.message);
+            continue;
         }
-        
-        // Check if response has expected structure
-        if (!result.choices || !result.choices[0] || !result.choices[0].message) {
-            console.error('Unexpected API response structure:', result);
-            res.status(500).json({ 
-                error: 'Invalid response format',
-                message: 'API returned unexpected response structure'
-            });
-            return;
-        }
-        
-        res.json(result);
-        
-    } catch (error) {
-        console.error('API call failed:', error);
-        res.status(500).json({ 
-            error: 'Network error',
-            message: 'Failed to connect to AI service'
-        });
     }
+    
+    // If all models failed
+    console.log('ALL MODELS FAILED');
+    return res.status(500).json({
+        error: 'All available models failed',
+        message: 'Please check your Groq API key and account status',
+        modelsAttempted: modelsToTry
+    });
 }
