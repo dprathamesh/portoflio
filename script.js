@@ -4,7 +4,7 @@ let lastApiCall = 0;
 let conversationHistory = [];
 let apiOnline = false;
 let isSubmitting = false;
-const API_COOLDOWN = 2000;
+const API_COOLDOWN = 1000; // Reduced cooldown
 const responseCache = new Map();
 
 // Dynamic title rotation
@@ -173,30 +173,19 @@ async function checkApiStatus() {
         statusDot.className = "status-dot";
         statusElement.textContent = "API Status: Checking...";
         
-        const response = await fetch('/api/chat', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ question: "Hello" })
-        });
+        const response = await fetch('/api/test-groq');
+        const result = await response.json();
         
-        if (response.ok) {
+        if (result.keyValid && result.success) {
             apiOnline = true;
             apiStatusIndicator.className = "api-status online";
             statusDot.className = "status-dot online";
             statusElement.textContent = "API Status: Online";
         } else {
-            const errorText = await response.text();
-            console.error("Backend API Error Details:", {
-                status: response.status,
-                statusText: response.statusText,
-                body: errorText
-            });
             apiOnline = false;
             apiStatusIndicator.className = "api-status offline";
             statusDot.className = "status-dot offline";
-            statusElement.textContent = `API Status: Error ${response.status}`;
+            statusElement.textContent = "API Status: Key Invalid";
         }
     } catch (error) {
         apiOnline = false;
@@ -377,20 +366,24 @@ function showSection(sectionName) {
     }
 }
 
-// Groq API call
+// GROQ API CALL - FIXED TO ACTUALLY USE GROQ
 async function queryGroqAPI(question) {
     const now = Date.now();
     if (now - lastApiCall < API_COOLDOWN) {
-        return getLocalResponse(question);
+        console.log("⏳ API cooldown active, waiting...");
+        await new Promise(resolve => setTimeout(resolve, API_COOLDOWN - (now - lastApiCall)));
     }
-    lastApiCall = now;
+    lastApiCall = Date.now();
     
+    // Check cache first
     const cached = getCachedResponse(question);
     if (cached) {
+        console.log("📋 Using cached response");
         return cached;
     }
     
     try {
+        console.log("🚀 Calling Groq API with question:", question);
         showTypingIndicator();
         
         const response = await fetch('/api/chat', {
@@ -401,59 +394,34 @@ async function queryGroqAPI(question) {
             body: JSON.stringify({ question })
         });
         
+        console.log("📡 Response status:", response.status);
+        
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error("❌ API Error:", response.status, errorText);
+            removeTypingIndicator();
+            return `Sorry, I'm having trouble connecting to my AI brain right now. Error: ${response.status}`;
+        }
+        
+        const result = await response.json();
+        console.log("✅ Groq API Response:", result);
+        
         removeTypingIndicator();
         
-        if (response.ok) {
-            const result = await response.json();
-            // Handle different response formats from Groq API
-            let answer;
-            if (result.choices && result.choices[0] && result.choices[0].message) {
-                answer = result.choices[0].message.content;
-            } else if (result.message) {
-                answer = result.message;
-            } else if (result.response) {
-                answer = result.response;
-            } else {
-                console.error("Unexpected API response format:", result);
-                answer = "I received an unexpected response format from the API.";
-            }
-            
+        // Extract the actual response from Groq
+        if (result.choices && result.choices[0] && result.choices[0].message) {
+            const answer = result.choices[0].message.content;
             cacheResponse(question, answer);
             return answer;
         } else {
-            const errorText = await response.text();
-            console.error("API Error:", response.status, errorText);
-            return `API Error (${response.status}): ${errorText}`;
+            console.error("❌ Unexpected response format:", result);
+            return "I received an unexpected response format from my AI brain.";
         }
         
     } catch (error) {
-        console.error("API connection failed:", error);
+        console.error("❌ Network error:", error);
         removeTypingIndicator();
-        return `Connection failed: ${error.message}. Please check if your API is properly deployed.`;
-    }
-}
-
-function getLocalResponse(question) {
-    const q = question.toLowerCase();
-    
-    if (q.includes('do now') || q.includes('current') || q.includes('currently')) {
-        return "Currently, Prathamesh is pursuing his MS in Computer Science at SUNY Buffalo and working as a Teaching Assistant for SQL courses. He also continues his volunteer work with Vardhan NGO, teaching underprivileged children.";
-    } else if (q.includes('experience') || q.includes('work') || q.includes('job') || q.includes('capgemini')) {
-        return "Prathamesh has 3+ years of professional experience. He worked at Capgemini as a Python Lead from 2021-2024, where he designed ETL jobs and performed sentiment analysis using NLP. He also founded Teraluna Tech Ventures, a recruitment technology startup.";
-    } else if (q.includes('skill') || q.includes('technical') || q.includes('python') || q.includes('sql')) {
-        return "Prathamesh's technical skills include Python (expert), SQL (advanced), Machine Learning, Data Science, NLP, SAP BO/BODS, Tableau, and AWS. He has 3+ years of experience with Python and SQL, and 2+ years with machine learning and data visualization tools.";
-    } else if (q.includes('education') || q.includes('degree') || q.includes('school')) {
-        return "Prathamesh holds a Bachelor's in Electronics & Telecommunication from Pillai College of Engineering (Mumbai University) and is currently pursuing a Master's in Computer Science at SUNY Buffalo, specializing in Data Science and Machine Learning.";
-    } else if (q.includes('project') || q.includes('work on') || q.includes('built')) {
-        return "Some of Prathamesh's notable projects include: 1) Fall Detection using Active Learning (PyTorch, OpenCV), 2) Smart Attendance System with facial recognition (published in IEEE), 3) Volunteer Management Website for Vardhan NGO, and 4) IoT Home Automation system.";
-    } else if (q.includes('volunteer') || q.includes('ngo') || q.includes('community')) {
-        return "Prathamesh is a Volunteer Manager at Vardhan NGO, where he teaches underprivileged children for 8 hours weekly. He manages 25+ volunteers and has established automated management processes for the organization.";
-    } else if (q.includes('contact') || q.includes('email') || q.includes('phone') || q.includes('reach')) {
-        return "You can contact Prathamesh via email at pdamle@buffalo.edu, phone at +1 716 4150296, or connect with him on LinkedIn and GitHub.";
-    } else if (q.includes('hello') || q.includes('hi') || q.includes('hey')) {
-        return "Hello! I'm Prathamesh's AI assistant. How can I help you learn about his professional background?";
-    } else {
-        return "I can help you learn about Prathamesh's experience, skills, education, projects, and volunteering work. What specific information are you looking for?";
+        return `Sorry, I couldn't connect to my AI service. Please try again. Error: ${error.message}`;
     }
 }
 
@@ -532,9 +500,7 @@ async function submitChat() {
         addMessage(response, 'ai');
     } catch (error) {
         removeTypingIndicator();
-        addMessage("I'm experiencing high traffic. Let me answer from my knowledge base.", 'ai');
-        const fallbackResponse = getLocalResponse(question);
-        addMessage(fallbackResponse, 'ai');
+        addMessage("Sorry, I'm experiencing technical difficulties. Please try again.", 'ai');
     }
     
     if (input) input.value = '';
