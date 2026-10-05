@@ -944,85 +944,109 @@ body {
     margin-bottom: 10px;
 }
 
-.projects-grid {
+/* ===== Projects section: compact case-study cards =====
+   Self-contained: only touches .pgrid / .pcard classes. */
+
+.pgrid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 30px;
-    margin-top: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.project-card {
+.pcard {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 24px;
+    border-radius: 14px;
     background-color: var(--card-bg);
-    border-radius: 12px;
-    overflow: hidden;
     border: 1px solid var(--border-color);
-    transition: all 0.3s ease;
+    transition: border-color .2s ease, background .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+.pcard:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 1px var(--primary-color), 0 12px 30px rgba(0, 0, 0, 0.18);
+    transform: translateY(-3px);
 }
 
-.project-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-}
-
-.project-image {
-    height: 200px;
-    background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+.pcard-head {
     display: flex;
     align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 48px;
+    gap: 14px;
 }
-
-.project-content {
-    padding: 25px;
-}
-
-.project-title {
+.pcard-icon {
+    flex: 0 0 44px;
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: grid; place-items: center;
     font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.project-description {
-    margin-bottom: 15px;
-    color: #6b7280;
-}
-
-.tech-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 15px;
-}
-
-.tech-tag {
-    padding: 4px 8px;
-    background-color: var(--primary-color);
-    color: white;
-    border-radius: 4px;
-    font-size: 12px;
-}
-
-.project-links {
-    display: flex;
-    gap: 10px;
-}
-
-.project-link {
-    padding: 8px 16px;
-    border: 1px solid var(--primary-color);
     color: var(--primary-color);
-    text-decoration: none;
-    border-radius: 6px;
-    font-size: 14px;
-    transition: all 0.3s ease;
+    background: color-mix(in srgb, var(--primary-color) 14%, transparent);
+}
+.pcard-title {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+.pcard-status {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    vertical-align: middle;
+    color: var(--primary-color);
+    background: color-mix(in srgb, var(--primary-color) 14%, transparent);
 }
 
-.project-link:hover {
-    background-color: var(--primary-color);
-    color: white;
+.pcard-desc {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    opacity: .78;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
+.pcard:hover .pcard-desc { -webkit-line-clamp: unset; }
+
+.pcard-tags {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-top: auto;
+}
+.pcard-tag {
+    padding: 3px 9px;
+    border-radius: 6px;
+    font-size: 12px;
+    opacity: .75;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+}
+[data-theme="light"] .pcard-tag { border-color: rgba(0, 0, 0, 0.14); }
+
+.pcard-links {
+    display: flex; flex-wrap: wrap; gap: 16px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+[data-theme="light"] .pcard-links { border-top-color: rgba(0, 0, 0, 0.07); }
+.pcard-link {
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    color: inherit;
+    opacity: .8;
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: color .15s ease, opacity .15s ease;
+}
+.pcard-link i { font-size: 12px; }
+.pcard-link:hover { color: var(--primary-color); opacity: 1; }
 
 .chat-interface {
     max-width: 800px;
@@ -1190,8 +1214,11 @@ body {
         grid-template-columns: 1fr;
     }
     
-    .projects-grid {
+    .pgrid {
         grid-template-columns: 1fr;
+    }
+    .pcard {
+        padding: 20px;
     }
     .experience-timeline {
         padding-left: 0;
