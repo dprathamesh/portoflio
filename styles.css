@@ -1365,3 +1365,25 @@ body {
     width: 100%;
     height: 100%;
 }
+
+/* ===== Large-screen scaling =====
+   Content is sized in px for ~1440px laptops. On wider displays we scale the
+   whole main area up proportionally so nothing looks miniature. The background
+   grid is scaled back down so its canvas stays pixel-aligned with the viewport. */
+:root { --ui-scale: 1; }
+
+@media (min-width: 1700px) { :root { --ui-scale: 1.15; } }
+@media (min-width: 2000px) { :root { --ui-scale: 1.3; } }
+@media (min-width: 2400px) { :root { --ui-scale: 1.45; } }
+@media (min-width: 3000px) { :root { --ui-scale: 1.7; } }
+
+@media (min-width: 1700px) {
+    .main-content .section { zoom: var(--ui-scale); }
+    .main-content .section .interactive-grid { zoom: calc(1 / var(--ui-scale)); }
+
+    /* Sidebar gets a lighter bump so it doesn't eat the width */
+    .sidebar { zoom: calc(1 + (var(--ui-scale) - 1) * 0.5); }
+
+    /* Fixed-position chrome */
+    .theme-toggle, .api-status { zoom: calc(1 + (var(--ui-scale) - 1) * 0.6); }
+}
