@@ -9,16 +9,15 @@ const responseCache = new Map();
 
 // Dynamic title rotation
 const titles = [
-    'Python Lead',
-    'Data Scientist',
-    'Machine Learning Engineer',
-    'Teaching Assistant',
-    'Volunteer Manager',
+    'Data Engineer \u00b7 Agentic AI',
+    'Databricks Certified Data Engineer',
+    'Builder of Autonomous Pipelines',
+    'Spark & Lakehouse Engineer',
+    'Teaching Assistant @ CiAI',
+    'Writer on AI Governance',
     'Tech Entrepreneur',
     'Problem Solver',
-    'Badminton Player',
-    'Math Tutor',
-    'Content Creator'
+    'Badminton Player'
 ];
 
 console.log("Script loaded");
