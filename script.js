@@ -170,27 +170,27 @@ async function checkApiStatus() {
     try {
         apiStatusIndicator.className = "api-status checking";
         statusDot.className = "status-dot";
-        statusElement.textContent = "API Status: Checking...";
+        statusElement.textContent = "AI Assistant: Checking...";
         
-        const response = await fetch('/api/test-groq');
+        const response = await fetch('/api/status');
         const result = await response.json();
         
-        if (result.keyValid && result.success) {
+        if (result.online) {
             apiOnline = true;
             apiStatusIndicator.className = "api-status online";
             statusDot.className = "status-dot online";
-            statusElement.textContent = "API Status: Online";
+            statusElement.textContent = "AI Assistant: Online";
         } else {
             apiOnline = false;
             apiStatusIndicator.className = "api-status offline";
             statusDot.className = "status-dot offline";
-            statusElement.textContent = "API Status: Key Invalid";
+            statusElement.textContent = "AI Assistant: Offline";
         }
     } catch (error) {
         apiOnline = false;
         apiStatusIndicator.className = "api-status offline";
         statusDot.className = "status-dot offline";
-        statusElement.textContent = "API Status: Connection Failed";
+        statusElement.textContent = "AI Assistant: Connection Failed";
         console.error("Backend Connection Error:", error);
     }
 }
@@ -365,8 +365,8 @@ function showSection(sectionName) {
     }
 }
 
-// GROQ API CALL - FIXED TO ACTUALLY USE GROQ
-async function queryGroqAPI(question) {
+// Chat API call (Cohere RAG backend in api/chat.js)
+async function queryChatAPI(question) {
     const now = Date.now();
     if (now - lastApiCall < API_COOLDOWN) {
         console.log("⏳ API cooldown active, waiting...");
@@ -382,7 +382,7 @@ async function queryGroqAPI(question) {
     }
     
     try {
-        console.log("🚀 Calling Groq API with question:", question);
+        console.log("🚀 Calling chat API with question:", question);
         showTypingIndicator();
         
         const response = await fetch('/api/chat', {
@@ -403,13 +403,12 @@ async function queryGroqAPI(question) {
         }
         
         const result = await response.json();
-        console.log("✅ Groq API Response:", result);
+        console.log("✅ Chat API Response:", result);
         
         removeTypingIndicator();
         
-        // Extract the actual response from Groq
-        if (result.choices && result.choices[0] && result.choices[0].message) {
-            const answer = result.choices[0].message.content;
+        if (result.answer) {
+            const answer = escapeHtml(result.answer).replace(/\n/g, '<br>');
             cacheResponse(question, answer);
             return answer;
         } else {
@@ -422,6 +421,10 @@ async function queryGroqAPI(question) {
         removeTypingIndicator();
         return `Sorry, I couldn't connect to my AI service. Please try again. Error: ${error.message}`;
     }
+}
+
+function escapeHtml(str) {
+    return str.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
 function showTypingIndicator() {
@@ -495,7 +498,7 @@ async function submitChat() {
     addMessage(question, 'user');
     
     try {
-        const response = await queryGroqAPI(question);
+        const response = await queryChatAPI(question);
         addMessage(response, 'ai');
     } catch (error) {
         removeTypingIndicator();
