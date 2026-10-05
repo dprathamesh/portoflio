@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Add hover effects
-    const cards = document.querySelectorAll('.stat-card, .project-card, .skill-item');
+    const cards = document.querySelectorAll('.stat-card, .skill-item');
     cards.forEach(card => {
         card.addEventListener('mouseenter', () => card.style.transform = 'translateY(-5px)');
         card.addEventListener('mouseleave', () => card.style.transform = 'translateY(0)');
